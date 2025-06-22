@@ -1,22 +1,8 @@
 describe('check the RHG video player', () => {
     it('check the video player', () => {
         cy.visit('https://entwickler.de/login')
-        
-        //cookie - make it optional and try different variations
-        cy.get('body').then($body => {
-            if ($body.text().includes('Alle akzeptieren')) {
-                cy.contains('Alle akzeptieren').click()
-            } else if ($body.text().includes('Accept All')) {
-                cy.contains('Accept All').click()
-            } else if ($body.text().includes('Akzeptieren')) {
-                cy.contains('Akzeptieren').click()
-            } else if ($body.text().includes('Accept')) {
-                cy.contains('Accept').click()
-            }
-            // If no cookie banner, continue with the test
-        })
-
-        cy.wait(2000) // Give time for any cookie banner to be handled
+        //cookie
+        cy.contains('Alle akzeptieren').click()
 
         //login
         cy.get('#username').type('hosman+1@jax.de')
@@ -47,35 +33,30 @@ describe('check the RHG video player', () => {
         cy.scrollTo('top', { duration: 5000 })
         cy.screenshot('sponsor')
 
-        //Info button - click first to reveal FAQ section
-        cy.get('body').then($body => {
-            if ($body.find('.align-self-center.mr-2 > readerapp-tutorials-blockbuster-right-menu > .justify-content-between > .top-right-menu > :nth-child(3) > .text-white > .text-nowrap').length > 0) {
-                cy.get('.align-self-center.mr-2 > readerapp-tutorials-blockbuster-right-menu > .justify-content-between > .top-right-menu > :nth-child(3) > .text-white > .text-nowrap').should('be.visible', { timeout: 50000 }).click()
-            } else if ($body.text().includes('Info')) {
-                cy.contains('Info').click()
-            } else if ($body.text().includes('Information')) {
-                cy.contains('Information').click()
-            }
-        })
+        //info button (to access FAQ)
+        cy.get('.align-self-center.mr-2 > readerapp-tutorials-blockbuster-right-menu > .justify-content-between > .top-right-menu > :nth-child(3) > .text-white > .text-nowrap').should('be.visible', { timeout: 50000 }).click()
         cy.wait(5000)
 
-        //FAQ button - now click FAQ after Info is opened
-        cy.get('body').then($body => {
-            // Try different possible FAQ button selectors
-            if ($body.find('.faq-svg-wrapper').length > 0) {
-                cy.get('.faq-svg-wrapper').first().click({ force: true })
-            } else if ($body.find('[class*="faq"]').length > 0) {
-                cy.get('[class*="faq"]').first().click({ force: true })
-            } else if ($body.text().includes('FAQ')) {
-                cy.contains('FAQ').first().click({ force: true })
-            } else if ($body.text().includes('Fragen')) {
-                cy.contains('Fragen').first().click({ force: true })
-            }
-        })
+        //FAQ button
+        cy.get('.faq-svg-wrapper').click({ force: true })
         cy.wait(5000)
         cy.scrollTo('bottom', { duration: 5000 }) 
         cy.scrollTo('top', { duration: 5000 })
         cy.screenshot('faq')
+
+        //lageplan button
+        cy.get('.lageplan-svg-wrapper').click({ force: true })
+        cy.wait(5000)
+        cy.scrollTo('bottom', { duration: 5000 }) 
+        cy.scrollTo('top', { duration: 5000 })
+        cy.screenshot('lageplan')
+
+        //raumplan button
+        cy.get('.raumplan-svg-wrapper').click({ force: true })
+        cy.wait(5000)
+        cy.scrollTo('bottom', { duration: 5000 }) 
+        cy.scrollTo('top', { duration: 5000 })
+        cy.screenshot('raumplan')
 
         //Chat button
         cy.get('.align-self-center.mr-2 > readerapp-tutorials-blockbuster-right-menu > .justify-content-between > .top-right-menu > .chat-bubble > :nth-child(1) > .expand-text-button > .text-nowrap').should('be.visible').click({ force: true })
@@ -83,7 +64,5 @@ describe('check the RHG video player', () => {
         cy.screenshot('chat')
         cy.get('[style="visibility: visible;"] > .material-icons').click()
         
-        // Test completed successfully
-        cy.log('RHG video player test completed successfully - All buttons tested: Speaker, Sponsor, Info/FAQ, and Chat')
     })
 })
