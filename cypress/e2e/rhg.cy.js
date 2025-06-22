@@ -20,9 +20,36 @@ describe('check the RHG video player', () => {
         cy.scrollTo('top', { duration: 4000 })
         cy.screenshot('general look')
 
+        //info button (to access FAQ,Lageplan,Raumplan)
+        cy.get('.align-self-center.mr-2 > readerapp-tutorials-blockbuster-right-menu > .justify-content-between > .top-right-menu > .RHGDMENU > .dropdown > #dropdownMenu2 > .text-nowrap').should('be.visible', { timeout: 50000 }).click()
+        cy.wait(3000)
+        
+        //FAQ button
+        cy.get('.align-self-center.mr-2 > readerapp-tutorials-blockbuster-right-menu > .justify-content-between > .top-right-menu > .RHGDMENU > .dropdown > .dropdown-menu > .px-1 > .d-flex').should('be.visible', { timeout: 50000 }).click()
+        cy.wait(3000)
+        cy.screenshot('faq')
+        cy.get('.modal-content .material-icons:contains("close")').first().click()
+        cy.wait(2000)
+ 
+        //lageplan button
+        cy.get('.align-self-center.mr-2 > readerapp-tutorials-blockbuster-right-menu > .justify-content-between > .top-right-menu > .RHGDMENU > .dropdown > #dropdownMenu2 > .text-nowrap').should('be.visible', { timeout: 50000 }).click()
+        cy.get('.align-self-center.mr-2 > readerapp-tutorials-blockbuster-right-menu > .justify-content-between > .top-right-menu > .RHGDMENU > .dropdown > .dropdown-menu > :nth-child(2) > .d-flex > .px-2').should('be.visible', { timeout: 50000 }).click()
+        cy.wait(3000)
+        cy.screenshot('lageplan')
+        cy.get('.modal-content > .close > .ng-tns-c277-0').first().click()
+        cy.wait(2000)
+        
+        //raumplan button
+        cy.get('.align-self-center.mr-2 > readerapp-tutorials-blockbuster-right-menu > .justify-content-between > .top-right-menu > .RHGDMENU > .dropdown > #dropdownMenu2 > .text-nowrap').should('be.visible', { timeout: 50000 }).click()
+        cy.get('.align-self-center.mr-2 > readerapp-tutorials-blockbuster-right-menu > .justify-content-between > .top-right-menu > .RHGDMENU > .dropdown > .dropdown-menu > :nth-child(3) > .d-flex > .px-2').should('be.visible', { timeout: 50000 }).click()
+        cy.wait(3000)
+        cy.screenshot('raumplan')
+        cy.get('.d-flex > .close > .ng-tns-c277-0').first().click()
+        cy.wait(2000)
+
         //check the speaker button
         cy.get('.align-self-center.mr-2 > readerapp-tutorials-blockbuster-right-menu > .justify-content-between > .top-right-menu > :nth-child(1) > .text-white > .text-nowrap').should('be.visible', { timeout: 50000 }).click()
-        cy.wait(10000)
+        cy.wait(3000)
         cy.scrollTo('bottom', { duration: 5000 }) 
         cy.scrollTo('top', { duration: 5000 })
         cy.screenshot('speaker')
@@ -33,36 +60,12 @@ describe('check the RHG video player', () => {
         cy.scrollTo('top', { duration: 5000 })
         cy.screenshot('sponsor')
 
-        //info button (to access FAQ)
-        cy.get('.align-self-center.mr-2 > readerapp-tutorials-blockbuster-right-menu > .justify-content-between > .top-right-menu > :nth-child(3) > .text-white > .text-nowrap').should('be.visible', { timeout: 50000 }).click()
-        cy.wait(5000)
-
-        //FAQ button
-        cy.get('.faq-svg-wrapper').click({ force: true })
-        cy.wait(5000)
-        cy.scrollTo('bottom', { duration: 5000 }) 
-        cy.scrollTo('top', { duration: 5000 })
-        cy.screenshot('faq')
-
-        //lageplan button
-        cy.get('.lageplan-svg-wrapper').click({ force: true })
-        cy.wait(5000)
-        cy.scrollTo('bottom', { duration: 5000 }) 
-        cy.scrollTo('top', { duration: 5000 })
-        cy.screenshot('lageplan')
-
-        //raumplan button
-        cy.get('.raumplan-svg-wrapper').click({ force: true })
-        cy.wait(5000)
-        cy.scrollTo('bottom', { duration: 5000 }) 
-        cy.scrollTo('top', { duration: 5000 })
-        cy.screenshot('raumplan')
-
         //Chat button
         cy.get('.align-self-center.mr-2 > readerapp-tutorials-blockbuster-right-menu > .justify-content-between > .top-right-menu > .chat-bubble > :nth-child(1) > .expand-text-button > .text-nowrap').should('be.visible').click({ force: true })
         cy.wait(5000)
         cy.screenshot('chat')
         cy.get('[style="visibility: visible;"] > .material-icons').click()
         
+
     })
 })
