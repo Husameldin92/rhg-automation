@@ -1,8 +1,22 @@
 describe('check the RHG video player', () => {
     it('check the video player', () => {
         cy.visit('https://entwickler.de/login')
-        //cookie
-        cy.contains('Alle akzeptieren').click()
+        
+        //cookie - make it optional and try different variations
+        cy.get('body').then($body => {
+            if ($body.text().includes('Alle akzeptieren')) {
+                cy.contains('Alle akzeptieren').click()
+            } else if ($body.text().includes('Accept All')) {
+                cy.contains('Accept All').click()
+            } else if ($body.text().includes('Akzeptieren')) {
+                cy.contains('Akzeptieren').click()
+            } else if ($body.text().includes('Accept')) {
+                cy.contains('Accept').click()
+            }
+            // If no cookie banner, continue with the test
+        })
+
+        cy.wait(2000) // Give time for any cookie banner to be handled
 
         //login
         cy.get('#username').type('hosman+1@jax.de')
@@ -34,11 +48,12 @@ describe('check the RHG video player', () => {
         cy.screenshot('sponsor')
 
         //Chat button
-        cy.get('.align-self-center.mr-2 > readerapp-tutorials-blockbuster-right-menu > .justify-content-between > .top-right-menu > .chat-bubble > :nth-child(1) > .expand-text-button > .text-nowrap').should('be.visible',).click()
+        cy.get('.align-self-center.mr-2 > readerapp-tutorials-blockbuster-right-menu > .justify-content-between > .top-right-menu > .chat-bubble > :nth-child(1) > .expand-text-button > .text-nowrap').should('be.visible').click()
         cy.wait(5000)
         cy.screenshot('chat')
         cy.get('[style="visibility: visible;"] > .material-icons').click()
-        //ot
         
+        // Test completed successfully
+        cy.log('RHG video player test completed successfully')
     })
 })
