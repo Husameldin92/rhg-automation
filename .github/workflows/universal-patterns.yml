@@ -2,8 +2,8 @@ name: 🛠️ Universal Patterns - Works in Any Project
 
 on:
   workflow_dispatch:  # Manual trigger
-  push:              # Runs on every code push
-    branches: [main] # Only on main branch
+  #push:              # Runs on every code push
+  #  branches: [main] # Only on main branch
 
 jobs:
   universal-job:
