@@ -1,12 +1,17 @@
 {
   "name": "cypressss",
   "version": "1.0.0",
-  "description": "",
+  "description": "Cypress E2E tests for RHG video player",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cypress run",
+    "test:open": "cypress open",
+    "test:headless": "cypress run --headless",
+    "test:chrome": "cypress run --browser chrome",
+    "test:firefox": "cypress run --browser firefox",
+    "test:edge": "cypress run --browser edge"
   },
-  "keywords": [],
+  "keywords": ["cypress", "e2e", "testing", "rhg", "video-player"],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
