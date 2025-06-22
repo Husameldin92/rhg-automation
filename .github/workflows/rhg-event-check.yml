@@ -1,0 +1,113 @@
+name: 🎯 RHG Event Check - Weekly
+
+# Run every Friday at 9 AM UTC (adjust timezone as needed)
+on:
+  schedule:
+    - cron: '0 9 * * 5'  # Friday at 9 AM
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  rhg-event-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+      
+    - name: 🟢 Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: 📦 Install dependencies
+      run: npm ci
+      
+    - name: 🎭 Run Cypress test
+      run: npx cypress run --spec "cypress/e2e/rhg.cy.js" --browser chrome
+      continue-on-error: true
+      
+    - name: 📸 Upload screenshots
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: rhg-screenshots-${{ github.run_number }}
+        path: cypress/screenshots/
+        retention-days: 30
+        
+    - name: 📧 Send email notification (Success)
+      if: success()
+      uses: dawidd6/action-send-mail@v3
+      with:
+        server_address: smtp.gmail.com
+        server_port: 587
+        username: ${{ secrets.EMAIL_USERNAME }}
+        password: ${{ secrets.EMAIL_PASSWORD }}
+        subject: "✅ RHG Event Check - New Event Found!"
+        to: your-email@company.com
+        from: RHG Automation <noreply@company.com>
+        html_body: |
+          <h2>🎉 RHG Event Check Completed Successfully</h2>
+          <p><strong>Date:</strong> ${{ github.event.schedule || 'Manual Run' }}</p>
+          <p><strong>Status:</strong> ✅ New event detected for next week</p>
+          <p><strong>Screenshots:</strong> <a href="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}">View Screenshots</a></p>
+          <hr>
+          <p>The RHG player is ready for the upcoming event starting Monday.</p>
+          
+    - name: 💬 Send Slack notification (Success)
+      if: success()
+      uses: 8398a7/action-slack@v3
+      with:
+        status: success
+        channel: '@your-slack-username'  # Private DM
+        text: |
+          🎉 *RHG Event Check - SUCCESS*
+          
+          ✅ New event found for next week!
+          📅 Run Date: ${{ github.event.schedule || 'Manual' }}
+          📸 Screenshots: <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Artifacts>
+          
+          The RHG player is ready for Monday's event! 🚀
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        
+    - name: 📧 Send email notification (Failure)
+      if: failure()
+      uses: dawidd6/action-send-mail@v3
+      with:
+        server_address: smtp.gmail.com
+        server_port: 587
+        username: ${{ secrets.EMAIL_USERNAME }}
+        password: ${{ secrets.EMAIL_PASSWORD }}
+        subject: "❌ RHG Event Check Failed"
+        to: your-email@company.com
+        from: RHG Automation <noreply@company.com>
+        html_body: |
+          <h2>⚠️ RHG Event Check Failed</h2>
+          <p><strong>Date:</strong> ${{ github.event.schedule || 'Manual Run' }}</p>
+          <p><strong>Status:</strong> ❌ Check failed</p>
+          <p><strong>Logs:</strong> <a href="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}">View Logs</a></p>
+          <hr>
+          <p><strong>Possible reasons:</strong></p>
+          <ul>
+            <li>No new event available yet</li>
+            <li>Website structure changed</li>
+            <li>Login credentials need updating</li>
+          </ul>
+          
+    - name: 💬 Send Slack notification (Failure)
+      if: failure()
+      uses: 8398a7/action-slack@v3
+      with:
+        status: failure
+        channel: '#rhg-events'  # Channel notification for failures
+        text: |
+          ⚠️ *RHG Event Check - FAILED*
+          
+          ❌ Automated check encountered an issue
+          📅 Run Date: ${{ github.event.schedule || 'Manual' }}
+          🔍 Logs: <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Details>
+          
+          Please investigate - might need manual check this week.
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} 
