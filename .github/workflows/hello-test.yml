@@ -13,9 +13,4 @@ jobs:
       run: echo "Hello! This is my first GitHub Action!"
       
     - name: 📅 Show current date
-      run: date
-      
-    - name: 🖥️ Show system info
-      run: |
-        echo "Running on: $(uname -a)"
-        echo "Current directory: $(pwd)" 
+      run: date 
