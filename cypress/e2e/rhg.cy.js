@@ -38,5 +38,7 @@ describe('check the RHG video player', () => {
         cy.wait(5000)
         cy.screenshot('chat')
         cy.get('[style="visibility: visible;"] > .material-icons').click()
+        //ot
+        
     })
 })
