@@ -23,7 +23,7 @@ jobs:
         
     # PATTERN 3: Install dependencies
     - name: 📦 Install Dependencies
-      run: npm install
+      run: npm ci
       
     # PATTERN 4: Run your main task (tests, build, etc)
     - name: 🚀 Run Main Task

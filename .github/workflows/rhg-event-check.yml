@@ -44,8 +44,8 @@ jobs:
         username: ${{ secrets.EMAIL_USERNAME }}
         password: ${{ secrets.EMAIL_PASSWORD }}
         subject: "✅ RHG Event Check - New Event Found!"
-        to: your-email@company.com
-        from: RHG Automation <noreply@company.com>
+        to: hosmantest@gmail.com
+        from: RHG Automation <hosmantest@gmail.com>
         html_body: |
           <h2>🎉 RHG Event Check Completed Successfully</h2>
           <p><strong>Date:</strong> ${{ github.event.schedule || 'Manual Run' }}</p>
