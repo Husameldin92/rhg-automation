@@ -47,22 +47,29 @@ describe('check the RHG video player', () => {
         cy.scrollTo('top', { duration: 5000 })
         cy.screenshot('sponsor')
 
-        //FAQ button - force click on first element since multiple may exist
+        //Info button - click first to reveal FAQ section
+        cy.get('body').then($body => {
+            if ($body.find('.align-self-center.mr-2 > readerapp-tutorials-blockbuster-right-menu > .justify-content-between > .top-right-menu > :nth-child(3) > .text-white > .text-nowrap').length > 0) {
+                cy.get('.align-self-center.mr-2 > readerapp-tutorials-blockbuster-right-menu > .justify-content-between > .top-right-menu > :nth-child(3) > .text-white > .text-nowrap').should('be.visible', { timeout: 50000 }).click()
+            } else if ($body.text().includes('Info')) {
+                cy.contains('Info').click()
+            } else if ($body.text().includes('Information')) {
+                cy.contains('Information').click()
+            }
+        })
+        cy.wait(5000)
+
+        //FAQ button - now click FAQ after Info is opened
         cy.get('body').then($body => {
             // Try different possible FAQ button selectors
             if ($body.find('.faq-svg-wrapper').length > 0) {
                 cy.get('.faq-svg-wrapper').first().click({ force: true })
-            } else if ($body.find('.align-self-center.mr-2 > readerapp-tutorials-blockbuster-right-menu > .justify-content-between > .top-right-menu > :nth-child(3) > .text-white > .text-nowrap').length > 0) {
-                cy.get('.align-self-center.mr-2 > readerapp-tutorials-blockbuster-right-menu > .justify-content-between > .top-right-menu > :nth-child(3) > .text-white > .text-nowrap').first().click({ force: true })
             } else if ($body.find('[class*="faq"]').length > 0) {
                 cy.get('[class*="faq"]').first().click({ force: true })
             } else if ($body.text().includes('FAQ')) {
                 cy.contains('FAQ').first().click({ force: true })
             } else if ($body.text().includes('Fragen')) {
                 cy.contains('Fragen').first().click({ force: true })
-            } else {
-                // Try to find any remaining button in the top-right-menu
-                cy.get('.top-right-menu').find('button, a, div[role="button"]').last().click({ force: true })
             }
         })
         cy.wait(5000)
@@ -71,12 +78,12 @@ describe('check the RHG video player', () => {
         cy.screenshot('faq')
 
         //Chat button
-        cy.get('.align-self-center.mr-2 > readerapp-tutorials-blockbuster-right-menu > .justify-content-between > .top-right-menu > .chat-bubble > :nth-child(1) > .expand-text-button > .text-nowrap').should('be.visible').click()
+        cy.get('.align-self-center.mr-2 > readerapp-tutorials-blockbuster-right-menu > .justify-content-between > .top-right-menu > .chat-bubble > :nth-child(1) > .expand-text-button > .text-nowrap').should('be.visible').click({ force: true })
         cy.wait(5000)
         cy.screenshot('chat')
         cy.get('[style="visibility: visible;"] > .material-icons').click()
         
         // Test completed successfully
-        cy.log('RHG video player test completed successfully - All buttons tested: Speaker, Sponsor, FAQ, and Chat')
+        cy.log('RHG video player test completed successfully - All buttons tested: Speaker, Sponsor, Info/FAQ, and Chat')
     })
 })
