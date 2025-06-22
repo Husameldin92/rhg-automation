@@ -42,7 +42,7 @@ jobs:
         server_address: smtp.gmail.com
         server_port: 587
         username: hosmantest@gmail.com  
-        password: Hossamaccent2015+
+        password: wihr ossr lwcz qtsk
         subject: "✅ RHG Event Check - New Event Found!"
         to: hosmantest@gmail.com
         from: RHG Automation <hosmantest@gmail.com>
@@ -78,7 +78,7 @@ jobs:
         server_address: smtp.gmail.com
         server_port: 587
         username: hosmantest@gmail.com
-        password: Hossamaccent2015+
+        password: wihr ossr lwcz qtsk
         subject: "❌ RHG Event Check Failed"
         to: hosmantest@gmail.com
         from: RHG Automation <hosmantest@gmail.com>
