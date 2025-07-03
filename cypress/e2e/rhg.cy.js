@@ -1,12 +1,10 @@
 describe('check the RHG video player', () => {
     it('check the video player', () => {
         cy.visit('https://entwickler.de/login')
-        //cookie
-        cy.get('body').then(($body) => {
-            if ($body.text().includes('Alle akzeptieren')) {
-                cy.contains('Alle akzeptieren').click()
-            }
-        })
+        
+        //cookie button
+        cy.contains('Alle akzeptieren').click()
+        cy.wait(2000)
 
         //login
         cy.get('#username').type('hosman+1@jax.de')
