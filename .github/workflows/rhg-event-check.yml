@@ -57,23 +57,6 @@ jobs:
           <hr>
           <p>The RHG player is ready for the upcoming event starting Monday.</p>
           
-    - name: 💬 Send Slack notification (Success)
-      if: success()
-      uses: 8398a7/action-slack@v3
-      with:
-        status: success
-        channel: '@U065KPG67RV'  # Private DM to you only
-        text: |
-          🎉 *RHG Event Check - SUCCESS*
-          
-          ✅ New event found for next week!
-          📅 Run Date: ${{ github.event.schedule || 'Manual' }}
-          📸 Screenshots: <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Artifacts>
-          
-          The RHG player is ready for Monday's event! 🚀
-      env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        
     - name: 📧 Send email notification (Failure)
       if: failure()
       uses: dawidd6/action-send-mail@v3
@@ -96,21 +79,4 @@ jobs:
             <li>No new event available yet</li>
             <li>Website structure changed</li>
             <li>Login credentials need updating</li>
-          </ul>
-          
-    - name: 💬 Send Slack notification (Failure)
-      if: failure()
-      uses: 8398a7/action-slack@v3
-      with:
-        status: failure
-        channel: '@U065KPG67RV'  # Private DM to you only
-        text: |
-          ⚠️ *RHG Event Check - FAILED*
-          
-          ❌ Automated check encountered an issue
-          📅 Run Date: ${{ github.event.schedule || 'Manual' }}
-          🔍 Logs: <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Details>
-          
-          Please investigate - might need manual check this week.
-      env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} 
+          </ul> 
