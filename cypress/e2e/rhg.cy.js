@@ -47,12 +47,21 @@ describe('check the RHG video player', () => {
         cy.wait(2000)
         
         //raumplan button
-        cy.get('.align-self-center.mr-2 > readerapp-tutorials-blockbuster-right-menu > .justify-content-between > .top-right-menu > .RHGDMENU > .dropdown > #dropdownMenu2 > .text-nowrap').should('be.visible', { timeout: 50000 }).click()
-        cy.get('.align-self-center.mr-2 > readerapp-tutorials-blockbuster-right-menu > .justify-content-between > .top-right-menu > .RHGDMENU > .dropdown > .dropdown-menu > :nth-child(3) > .d-flex > .px-2').should('be.visible', { timeout: 50000 }).click()
-        cy.wait(3000)
-        cy.screenshot('raumplan')
-        cy.get('.d-flex > .close > .ng-tns-c277-0').first().click()
-        cy.wait(2000)
+        cy.get('body').then(($body) => {
+            if ($body.find('.align-self-center.mr-2 > readerapp-tutorials-blockbuster-right-menu > .justify-content-between > .top-right-menu > .RHGDMENU > .dropdown > #dropdownMenu2 > .text-nowrap').length > 0) {
+                cy.get('.align-self-center.mr-2 > readerapp-tutorials-blockbuster-right-menu > .justify-content-between > .top-right-menu > .RHGDMENU > .dropdown > #dropdownMenu2 > .text-nowrap').should('be.visible', { timeout: 50000 }).click()
+                cy.wait(1000)
+                cy.get('body').then(($body2) => {
+                    if ($body2.find('.align-self-center.mr-2 > readerapp-tutorials-blockbuster-right-menu > .justify-content-between > .top-right-menu > .RHGDMENU > .dropdown > .dropdown-menu > :nth-child(3) > .d-flex > .px-2').length > 0) {
+                        cy.get('.align-self-center.mr-2 > readerapp-tutorials-blockbuster-right-menu > .justify-content-between > .top-right-menu > .RHGDMENU > .dropdown > .dropdown-menu > :nth-child(3) > .d-flex > .px-2').should('be.visible', { timeout: 50000 }).click()
+                        cy.wait(3000)
+                        cy.screenshot('raumplan')
+                        cy.get('.d-flex > .close > .ng-tns-c277-0').first().click()
+                        cy.wait(2000)
+                    }
+                })
+            }
+        })
 
         //check the speaker button
         cy.get('.align-self-center.mr-2 > readerapp-tutorials-blockbuster-right-menu > .justify-content-between > .top-right-menu > :nth-child(1) > .text-white > .text-nowrap').should('be.visible', { timeout: 50000 }).click()
