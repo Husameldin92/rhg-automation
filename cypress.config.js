@@ -3,6 +3,11 @@ require('dotenv').config();
 
 module.exports = defineConfig({
   watchForFileChanges: false,
+  video: true, // Enable video recording
+  videoCompression: 32, // Compression quality (0-51, lower = better quality)
+  videosFolder: 'cypress/videos', // Where videos are saved
+  screenshotOnRunFailure: true, // Take screenshots on failure
+  screenshotsFolder: 'cypress/screenshots', // Where screenshots are saved
   e2e: {
     setupNodeEvents(on, config) {
       // Load environment variables from .env file
