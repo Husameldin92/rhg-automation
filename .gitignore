@@ -10,3 +10,4 @@ node_modules/
 .package.json
 node_modules/
 .cursorindexingignore.backup
+cypress/screenshots/
